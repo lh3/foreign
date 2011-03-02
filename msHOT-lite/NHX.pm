@@ -1,4 +1,4 @@
-package LHPM::NHX;
+package NHX;
 
 =head1 NAME
 
