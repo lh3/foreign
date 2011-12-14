@@ -9,6 +9,7 @@ my %opts = (d=>'ctime', u=>2.5e-8);
 die("Usage: ms2ctime.pl [-u $opts{u}] [-d $opts{d}] <in.ms>\n") if (-t STDIN && @ARGV == 0);
 
 my (%data, $nind, $k, $L, @fh, $chr, $N0);
+$chr = 0;
 while (<>) {
   if (/^\S*ms\S+\s+(\d+)\s+(\d+)/) { # the command line
 	$data{NSAM} = $1; $data{NREP} = $2;
@@ -16,10 +17,9 @@ while (<>) {
 	$data{R} = $1, $data{L} = $2 if (/-r\s+(\S+)\s+(\d+)/);
 	$data{LH3} = /-l/? 1 : 0;
 	$data{N0} = $N0 = $data{T} / (4.0 * $opts{u} * $data{L});
-	$chr = 0;
 	$nind = int($data{NSAM}/2); # number of diploid individuals
 	mkdir($opts{d}) unless (-d $opts{d});
-	open($fh[$_], ">$opts{d}/ind-".($_*2-1)."-".($_*2)) for (1 .. $nind);
+	open($fh[$_], ">>$opts{d}/ind-".($_*2-1)."-".($_*2)) for (1 .. $nind);
   } elsif (/^\/\//) {
 	$k = $L = 0; ++$chr;
 	delete($data{SEG});
@@ -39,12 +39,12 @@ while (<>) {
 			$end += $p->[0];
 		  } else {
 			if ($last >= 0.0) {
-			  print {$fh[$i]} "chr$chr\t", $begin+1, "\t$end\t$last\n";
+			  print {$fh[$i]} "$chr\t", $begin+1, "\t$end\t$last\n";
 			}
 			$last = $t; $begin = $end; $end += $p->[0];
 		  }
 		} # for $p
-		print {$fh[$i]} "chr$chr\t", $begin+1, "\t$end\t$last\n";
+		print {$fh[$i]} "$chr\t", $begin+1, "\t$end\t$last\n";
 	  }
 	}
   }
