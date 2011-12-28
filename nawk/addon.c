@@ -14,9 +14,8 @@ static void set_colnm_aux(const char *p, int col)
 	for (q = p; *q; ++q)
 		if (!isdigit(*q)) break;
 	if (*q == 0) return; /* do not set if string p is an integer */
-	if ((x = lookup(p, symtab)) != NULL) {
+	if ((x = lookup(p, symtab)) != NULL)
 		x->tval = NUM, x->fval = col;
-    }
 }
 
 int isvalid_coldef(const char *request)
@@ -87,7 +86,7 @@ void lh3_set_colnm()
     else if (strcmp(lh3_col_defn, "vcf") == 0) {
         set_colnm_aux("chrom", 1);
         set_colnm_aux("pos", 2);
-        set_colnm_aux("is", 3);
+        set_colnm_aux("id", 3);
         set_colnm_aux("ref", 4);
         set_colnm_aux("alt", 5);
         set_colnm_aux("qual", 6);
