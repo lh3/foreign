@@ -82,6 +82,11 @@ void lh3_set_colnm()
         set_colnm_aux("seq", 10);
         set_colnm_aux("qual", 11);
         // todo: any intellignet way to handle tags?
+        
+        // auto-report any header lines
+        while (getrec(&record, &recsize, 1) > 0 && record[0] == '@') {
+            printf("%s\n", record);
+        }
     }
     else if (strcmp(lh3_col_defn, "vcf") == 0) {
         set_colnm_aux("chrom", 1);
@@ -93,5 +98,10 @@ void lh3_set_colnm()
         set_colnm_aux("filter", 7);
         set_colnm_aux("info", 8);
         // todo: any intellignet way to handle genotypes?
+        
+        // auto-report any header lines
+        while (getrec(&record, &recsize, 1) > 0 && record[0] == '#') {
+            printf("%s\n", record);
+        }
     }
 }
