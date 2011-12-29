@@ -62,12 +62,18 @@ void lh3_set_colnm()
         set_colnm_aux("name", 4);
         set_colnm_aux("score", 5);
         set_colnm_aux("strand", 6);
+        // force tab delimited input and output
+        *FS = "\t";
+        *OFS = "\t";
     }
     else if (strcmp(lh3_col_defn, "bedgraph") == 0) {
         set_colnm_aux("chrom", 1);
         set_colnm_aux("start", 2);
         set_colnm_aux("end", 3);
         set_colnm_aux("score", 4);
+        // force tab delimited input and output
+        *FS = "\t";
+        *OFS = "\t";
     }
     else if (strcmp(lh3_col_defn, "sam") == 0) {
         set_colnm_aux("qname", 1);
@@ -81,8 +87,10 @@ void lh3_set_colnm()
         set_colnm_aux("tlen", 9);
         set_colnm_aux("seq", 10);
         set_colnm_aux("qual", 11);
-        // todo: any intellignet way to handle tags?
-        
+        // todo: any intelligent way to handle tags?
+        // force tab delimited input and output
+        *FS = "\t";
+        *OFS = "\t";
         // auto-report any header lines
         while (getrec(&record, &recsize, 1) > 0 && record[0] == '@') {
             printf("%s\n", record);
@@ -97,8 +105,10 @@ void lh3_set_colnm()
         set_colnm_aux("qual", 6);
         set_colnm_aux("filter", 7);
         set_colnm_aux("info", 8);
-        // todo: any intellignet way to handle genotypes?
-        
+        // todo: any intelligent way to handle genotypes?
+        // force tab delimited input and output
+        *FS = "\t";
+        *OFS = "\t";
         // auto-report any header lines
         while (getrec(&record, &recsize, 1) > 0 && record[0] == '#') {
             printf("%s\n", record);
