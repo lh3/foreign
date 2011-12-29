@@ -125,7 +125,6 @@ void lh3_set_colnm()
         set_colnm_aux("strand", 8);
         set_colnm_aux("group", 9);     // allow group or attribute, as
         set_colnm_aux("attribute", 9); // GFF v1 used group, v2 uses attribute
-        // todo: any intelligent way to handle genotypes?
         // force tab delimited input and output
         *FS = "\t";
         *OFS = "\t";
