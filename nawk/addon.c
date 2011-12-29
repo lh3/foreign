@@ -5,7 +5,7 @@
 #include "addon.h"
 
 const char *lh3_col_defn = NULL;
-const char *valid_coldefs[] = {"header", "bed", "bedgraph", "sam", "vcf", NULL};
+const char *valid_coldefs[] = {"header", "bed", "bedgraph", "sam", "vcf", "gff", "gtf", NULL};
 
 static void set_colnm_aux(const char *p, int col)
 {
@@ -105,6 +105,26 @@ void lh3_set_colnm()
         set_colnm_aux("qual", 6);
         set_colnm_aux("filter", 7);
         set_colnm_aux("info", 8);
+        // todo: any intelligent way to handle genotypes?
+        // force tab delimited input and output
+        *FS = "\t";
+        *OFS = "\t";
+        // auto-report any header lines
+        while (getrec(&record, &recsize, 1) > 0 && record[0] == '#') {
+            printf("%s\n", record);
+        }
+    }
+    else if (strcmp(lh3_col_defn, "gff") == 0 || strcmp(lh3_col_defn, "gtf") == 0) {
+        set_colnm_aux("seqname", 1);
+        set_colnm_aux("source", 2);
+        set_colnm_aux("feature", 3);
+        set_colnm_aux("start", 4);
+        set_colnm_aux("end", 5);
+        set_colnm_aux("score", 6);
+        set_colnm_aux("filter", 7);
+        set_colnm_aux("strand", 8);
+        set_colnm_aux("group", 9);     // allow group or attribute, as
+        set_colnm_aux("attribute", 9); // GFF v1 used group, v2 uses attribute
         // todo: any intelligent way to handle genotypes?
         // force tab delimited input and output
         *FS = "\t";
