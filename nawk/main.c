@@ -150,12 +150,12 @@ int main(int argc, char *argv[])
 				argc--; argv++;
 				if (argc <= 1)
 					FATAL("no variable name");
-				if (isvalid_coldef(argv[1]))
-                    lh3_col_defn = argv[1];
-				else {
-                    print_valid_coldefs();
+				if (!isvalid_coldef(argv[1]) || strcmp(argv[1], "help") == 0) {
+				    print_valid_coldefs();
                     exit(1);
                 }
+				else
+                    lh3_col_defn = argv[1];
 			}
 			break;
 		default:
